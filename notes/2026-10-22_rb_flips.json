@@ -1,0 +1,137 @@
+{
+  "source": "scripts/check_rb_flips.py",
+  "takes": {
+    "calibration": {
+      "bodies": {
+        "jiawei_hand_fixture": {
+          "motive": {
+            "p50_mm": 0.13,
+            "p90_mm": 0.37,
+            "p99_mm": 0.804,
+            "over_5mm_frac": 0.0
+          },
+          "mosca": {
+            "p50_mm": 0.107,
+            "p90_mm": 0.297,
+            "p99_mm": 0.727,
+            "over_5mm_frac": 0.0
+          }
+        },
+        "jiawei_knuckle_00": {
+          "motive": {
+            "p50_mm": 10.752,
+            "p90_mm": 14.884,
+            "p99_mm": 15.127,
+            "over_5mm_frac": 0.7107
+          },
+          "mosca": {
+            "p50_mm": 0.115,
+            "p90_mm": 0.223,
+            "p99_mm": 0.458,
+            "over_5mm_frac": 0.0
+          }
+        },
+        "jiawei_fingertip_00": {
+          "motive": {
+            "p50_mm": 0.112,
+            "p90_mm": 2.368,
+            "p99_mm": 8.549,
+            "over_5mm_frac": 0.0804
+          },
+          "mosca": {
+            "p50_mm": 0.091,
+            "p90_mm": 0.174,
+            "p99_mm": 0.295,
+            "over_5mm_frac": 0.0
+          }
+        }
+      },
+      "tip_rel_knuckle_motive": {
+        "dev_from_mean_deg_p50_p90_p99": [
+          24.51,
+          174.75,
+          176.53
+        ],
+        "step_deg_p99": 34.53,
+        "steps_over_20deg": 558,
+        "frames": 8801
+      },
+      "tip_rel_knuckle_mosca": {
+        "dev_from_mean_deg_p50_p90_p99": [
+          1.91,
+          3.02,
+          3.87
+        ],
+        "step_deg_p99": 2.22,
+        "steps_over_20deg": 0,
+        "frames": 8801
+      }
+    },
+    "free_motion": {
+      "bodies": {
+        "jiawei_hand_fixture": {
+          "motive": {
+            "p50_mm": 0.016,
+            "p90_mm": 0.072,
+            "p99_mm": 0.562,
+            "over_5mm_frac": 0.0
+          },
+          "mosca": {
+            "p50_mm": 0.019,
+            "p90_mm": 0.089,
+            "p99_mm": 0.538,
+            "over_5mm_frac": 0.0
+          }
+        },
+        "jiawei_knuckle_00": {
+          "motive": {
+            "p50_mm": 0.138,
+            "p90_mm": 0.32,
+            "p99_mm": 2.766,
+            "over_5mm_frac": 0.0068
+          },
+          "mosca": {
+            "p50_mm": 0.133,
+            "p90_mm": 0.263,
+            "p99_mm": 0.42,
+            "over_5mm_frac": 0.0
+          }
+        },
+        "jiawei_fingertip_00": {
+          "motive": {
+            "p50_mm": 0.162,
+            "p90_mm": 12.904,
+            "p99_mm": 19.602,
+            "over_5mm_frac": 0.2065
+          },
+          "mosca": {
+            "p50_mm": 0.128,
+            "p90_mm": 0.272,
+            "p99_mm": 0.517,
+            "over_5mm_frac": 0.0
+          }
+        }
+      },
+      "tip_rel_knuckle_motive": {
+        "dev_from_mean_deg_p50_p90_p99": [
+          50.8,
+          130.55,
+          145.43
+        ],
+        "step_deg_p99": 9.38,
+        "steps_over_20deg": 60,
+        "frames": 20240
+      },
+      "tip_rel_knuckle_mosca": {
+        "dev_from_mean_deg_p50_p90_p99": [
+          43.75,
+          90.23,
+          134.83
+        ],
+        "step_deg_p99": 3.06,
+        "steps_over_20deg": 0,
+        "frames": 20164
+      }
+    }
+  }
+}

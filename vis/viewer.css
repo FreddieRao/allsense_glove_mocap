@@ -1,0 +1,30 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #15171c; color: #d7dae0; font: 13px/1.35 system-ui, sans-serif; height: 100vh;
+       display: grid; grid-template-rows: auto 1fr auto; }
+header { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 12px; border-bottom: 1px solid #2a2e36; }
+#title { font-weight: 600; font-size: 15px; }
+#stats { color: #9aa1ad; font-family: ui-monospace, monospace; font-size: 12px; }
+main { display: grid; grid-template-columns: 1fr 300px; min-height: 0; }
+.panel { position: relative; border-right: 1px solid #2a2e36; min-height: 0; }
+.panel canvas { width: 100%; height: 100%; display: block; }
+.count { position: absolute; bottom: 6px; left: 10px; color: #aeb4bf; pointer-events: none; white-space: pre; font-family: ui-monospace, monospace; font-size: 12px; }
+aside { overflow: auto; padding: 6px 10px; }
+aside h3 { margin: 10px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #8a919c; }
+aside small { text-transform: none; letter-spacing: 0; font-weight: 400; }
+aside label { display: block; margin: 2px 0; }
+#legend div { display: flex; align-items: center; gap: 6px; padding: 1px 3px; cursor: pointer; border-radius: 3px; }
+#legend div:hover { background: #232730; }
+#legend div.off { opacity: .3; }
+#legend i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex: none; }
+#summary { font-family: ui-monospace, monospace; font-size: 12px; white-space: pre; color: #c9d3e6; }
+footer { border-top: 1px solid #2a2e36; padding: 4px 12px 6px; }
+#controls { display: flex; align-items: center; gap: 6px; }
+#controls button, #controls select { background: #232730; color: #d7dae0; border: 1px solid #353a44; border-radius: 4px; padding: 2px 8px; }
+#controls button.on { background: #3a4252; }
+#slider { flex: 1; }
+#frame { font-family: ui-monospace, monospace; min-width: 230px; text-align: right; }
+#timeline { width: 100%; height: 56px; display: block; margin-top: 4px; cursor: pointer; background: #1b1e24; }
+#key { color: #9aa1ad; font-size: 12px; margin-top: 3px; }
+.k { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 10px; vertical-align: -1px; }
+.k.tip { background: #e5484d; } .k.prox { background: #46c46a; } .k.mid { background: #f5a524; } .k.held { background: #3a3f4c; } .k.kn { background: #3e8ef7; }
+.hint { float: right; }

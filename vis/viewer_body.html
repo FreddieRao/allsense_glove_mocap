@@ -1,0 +1,35 @@
+<header>
+  <div id="title"></div>
+  <div id="stats"></div>
+</header>
+<main>
+  <section class="panel"><canvas id="cv"></canvas><div class="count" id="count"></div></section>
+  <aside>
+    <h3>Markers <small>click to solo</small></h3><div id="legend"></div>
+    <h3>Show</h3>
+    <label><input type="checkbox" id="opt-mesh" checked> MANO hand (tracked)</label>
+    <label id="ovl-row"><input type="checkbox" id="opt-ovl"> MANO, <span id="ovl-label">smoothed wrist</span> (blue overlay)</label>
+    <label><input type="checkbox" id="opt-chain" checked> index joints + tip</label>
+    <label><input type="checkbox" id="opt-pred" checked> predicted cap / floating markers</label>
+    <label><input type="checkbox" id="opt-knerr" checked> knuckle-cap error (cap where the MANO root puts it)</label>
+    <label><input type="checkbox" id="opt-resid" checked> residual lines (pred &rarr; observed)</label>
+    <label><input type="checkbox" id="opt-axes" checked> cap axes, MoSca re-solve</label>
+    <label><input type="checkbox" id="opt-motive"> cap axes + template, Motive's own solve</label>
+    <label><input type="checkbox" id="opt-free" checked> unassigned markers</label>
+    <label><input type="checkbox" id="opt-fixture"> fixture markers</label>
+    <h3>Calibration</h3><div id="summary"></div>
+  </aside>
+</main>
+<footer>
+  <div id="controls">
+    <button id="play">&#9654;</button><button id="prev">&#9664;&#9664;</button><button id="next">&#9654;&#9654;</button>
+    <select id="speed"><option value="0.25">0.25x</option><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="2">2x</option></select>
+    <button id="follow" title="keep the camera target on the hand">follow</button>
+    <input type="range" id="slider" min="0" value="0">
+    <span id="frame"></span>
+  </div>
+  <canvas id="timeline" height="56"></canvas>
+  <div id="key"><span class="k tip"></span>tip-cap residual <span class="k prox"></span>floating proximal
+    <span class="k mid"></span>floating middle <span class="k kn"></span>knuckle cap (row full scale 1 mm, others 6 mm) <span class="k held"></span>held-out block (never fitted)
+    <span class="hint">drag: rotate &middot; right-drag / shift-drag: pan &middot; wheel: zoom &middot; space: play &middot; &larr; &rarr;: step</span></div>
+</footer>

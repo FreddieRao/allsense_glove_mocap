@@ -1,0 +1,334 @@
+{
+  "source": "scripts/compare_scan_mano.py",
+  "scan_dir": "data/hand_scan",
+  "betas": {
+    "custom_pose (init)": [
+      0.0051,
+      -0.029,
+      -0.0343,
+      -0.0094,
+      0.0074,
+      -0.0011,
+      -0.019,
+      0.0123,
+      -0.0004,
+      -0.0111
+    ],
+    "mocap fit (ours)": [
+      0.3376,
+      -0.2534,
+      -0.343,
+      -0.0242,
+      0.0845,
+      -0.1274,
+      -0.0709,
+      0.1879,
+      0.0485,
+      0.0605
+    ],
+    "scan fit": [
+      -0.5634999871253967,
+      -0.09529999643564224,
+      -0.7002000212669373,
+      -0.120899997651577,
+      -0.37950000166893005,
+      -0.37119999527931213,
+      -0.24959999322891235,
+      0.19419999420642853,
+      -0.328900009393692,
+      1.4610999822616577
+    ]
+  },
+  "measures_mm": {
+    "custom_pose (init)": {
+      "index": {
+        "wrist_mcp": 90.6,
+        "proximal": 33.01,
+        "middle": 22.21,
+        "distal_to_tip": 25.54
+      },
+      "middle": {
+        "wrist_mcp": 94.7,
+        "proximal": 31.74,
+        "middle": 23.29,
+        "distal_to_tip": 25.11
+      },
+      "pinky": {
+        "wrist_mcp": 81.83,
+        "proximal": 21.13,
+        "middle": 18.97,
+        "distal_to_tip": 19.13
+      },
+      "ring": {
+        "wrist_mcp": 86.05,
+        "proximal": 28.86,
+        "middle": 24.81,
+        "distal_to_tip": 24.39
+      },
+      "thumb": {
+        "wrist_mcp": 38.54,
+        "proximal": 30.79,
+        "middle": 27.1,
+        "distal_to_tip": 34.72
+      },
+      "palm_width_index_pinky_mcp": 66.82,
+      "hand_length_wrist_middle_tip": 173.92
+    },
+    "mocap fit (ours)": {
+      "index": {
+        "wrist_mcp": 88.94,
+        "proximal": 32.73,
+        "middle": 22.1,
+        "distal_to_tip": 25.49
+      },
+      "middle": {
+        "wrist_mcp": 93.06,
+        "proximal": 31.39,
+        "middle": 23.14,
+        "distal_to_tip": 24.99
+      },
+      "pinky": {
+        "wrist_mcp": 80.49,
+        "proximal": 20.96,
+        "middle": 18.87,
+        "distal_to_tip": 19.07
+      },
+      "ring": {
+        "wrist_mcp": 84.63,
+        "proximal": 28.5,
+        "middle": 24.61,
+        "distal_to_tip": 24.19
+      },
+      "thumb": {
+        "wrist_mcp": 37.64,
+        "proximal": 30.43,
+        "middle": 26.87,
+        "distal_to_tip": 34.46
+      },
+      "palm_width_index_pinky_mcp": 64.82,
+      "hand_length_wrist_middle_tip": 171.72
+    },
+    "scan fit": {
+      "index": {
+        "wrist_mcp": 92.41,
+        "proximal": 34.27,
+        "middle": 23.37,
+        "distal_to_tip": 26.82
+      },
+      "middle": {
+        "wrist_mcp": 96.42,
+        "proximal": 33.12,
+        "middle": 24.51,
+        "distal_to_tip": 26.3
+      },
+      "pinky": {
+        "wrist_mcp": 83.39,
+        "proximal": 21.93,
+        "middle": 19.96,
+        "distal_to_tip": 20.08
+      },
+      "ring": {
+        "wrist_mcp": 87.42,
+        "proximal": 29.93,
+        "middle": 26.05,
+        "distal_to_tip": 25.54
+      },
+      "thumb": {
+        "wrist_mcp": 39.36,
+        "proximal": 31.89,
+        "middle": 27.97,
+        "distal_to_tip": 36.18
+      },
+      "palm_width_index_pinky_mcp": 68.39,
+      "hand_length_wrist_middle_tip": 179.37
+    }
+  },
+  "vertex_distance_ours_vs_scan": {
+    "raw_all_p50_p95_max_mm": [
+      3.1,
+      4.57,
+      5.12
+    ],
+    "raw_index_p50_p95_max_mm": [
+      3.16,
+      4.37,
+      4.52
+    ],
+    "palm_aligned_all_p50_p95_max_mm": [
+      3.68,
+      6.5,
+      6.89
+    ],
+    "palm_aligned_index_p50_p95_max_mm": [
+      5.32,
+      6.7,
+      6.89
+    ]
+  },
+  "index_pose": {
+    "scan1_index_deg": [
+      [
+        -0.4000000059604645,
+        9.899999618530273,
+        -11.0
+      ],
+      [
+        1.600000023841858,
+        0.6000000238418579,
+        -5.599999904632568
+      ],
+      [
+        -2.5,
+        0.5,
+        -9.0
+      ]
+    ],
+    "scan2_index_deg": [
+      [
+        -0.800000011920929,
+        12.699999809265137,
+        -8.699999809265137
+      ],
+      [
+        1.399999976158142,
+        0.4000000059604645,
+        -7.599999904632568
+      ],
+      [
+        -2.5,
+        0.5,
+        -5.800000190734863
+      ]
+    ],
+    "mocap_calibration_take_index_deg_mean": [
+      [
+        -2.2,
+        2.0,
+        0.8
+      ],
+      [
+        1.5,
+        2.4,
+        0.6
+      ],
+      [
+        1.2,
+        0.8,
+        -0.3
+      ]
+    ]
+  },
+  "mocap_refits": {
+    "ours": {
+      "betas_frozen": false,
+      "fit_rms_mm": {
+        "calibration": {
+          "tip_cap": 0.212,
+          "float_proximal": 0.52,
+          "float_middle": 0.735
+        },
+        "free_motion": {
+          "tip_cap": 0.699,
+          "float_proximal": 2.026,
+          "float_middle": 2.014
+        }
+      },
+      "index_bone_lengths_mm": {
+        "wrist_mcp": 88.94,
+        "proximal": 32.73,
+        "middle": 22.1,
+        "distal_to_tip": 25.49
+      },
+      "float_height_mm": {
+        "proximal": 2.9,
+        "middle": 4.88
+      },
+      "betas_final": [
+        0.338,
+        -0.253,
+        -0.343,
+        -0.024,
+        0.084,
+        -0.127,
+        -0.071,
+        0.188,
+        0.048,
+        0.06
+      ]
+    },
+    "scan_init": {
+      "betas_frozen": false,
+      "fit_rms_mm": {
+        "calibration": {
+          "tip_cap": 0.2,
+          "float_proximal": 0.47,
+          "float_middle": 0.338
+        },
+        "free_motion": {
+          "tip_cap": 0.686,
+          "float_proximal": 2.017,
+          "float_middle": 1.999
+        }
+      },
+      "index_bone_lengths_mm": {
+        "wrist_mcp": 90.87,
+        "proximal": 33.97,
+        "middle": 23.23,
+        "distal_to_tip": 26.73
+      },
+      "float_height_mm": {
+        "proximal": 2.91,
+        "middle": 4.91
+      },
+      "betas_final": [
+        -0.252,
+        -0.281,
+        -0.936,
+        -0.118,
+        -0.315,
+        -0.473,
+        -0.305,
+        0.363,
+        -0.278,
+        1.512
+      ]
+    },
+    "scan_frozen": {
+      "betas_frozen": true,
+      "fit_rms_mm": {
+        "calibration": {
+          "tip_cap": 0.199,
+          "float_proximal": 0.47,
+          "float_middle": 0.325
+        },
+        "free_motion": {
+          "tip_cap": 0.699,
+          "float_proximal": 2.084,
+          "float_middle": 2.066
+        }
+      },
+      "index_bone_lengths_mm": {
+        "wrist_mcp": 92.41,
+        "proximal": 34.27,
+        "middle": 23.37,
+        "distal_to_tip": 26.82
+      },
+      "float_height_mm": {
+        "proximal": 2.9,
+        "middle": 4.92
+      },
+      "betas_final": [
+        -0.563,
+        -0.095,
+        -0.7,
+        -0.121,
+        -0.379,
+        -0.371,
+        -0.25,
+        0.194,
+        -0.329,
+        1.461
+      ]
+    }
+  }
+}

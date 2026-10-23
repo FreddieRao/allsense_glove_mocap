@@ -1,0 +1,213 @@
+# allsense_glove: index-finger MANO <-> Motive calibration. Paths are relative to the repo root.
+
+data:
+  takes:
+    calibration: data/motive/calibration_1018.csv     # hand rigid in the printed fixture, fixture moves
+    free_motion: data/motive/free_motion.csv           # fixture static, hand and index finger move freely
+  assets:                                              # Motive rigid-body definitions (body frame, m)
+    - data/motive/jiawei_hand_fixture_1018.motive
+    - data/motive/jiawei_knuckle_00_1018.motive
+    - data/motive/jiawei_fingertip_00_1018.motive
+  bodies:
+    fixture: jiawei_hand_fixture
+    knuckle: jiawei_knuckle_00
+    tip: jiawei_fingertip_00
+  mano_pose_json: data/assets/custom_pose.json         # betas + pose, MANO canonical frame
+  hand_cad_obj: data/assets/hand_aligned_mm.obj        # the same MANO mesh in the fixture CAD frame, mm
+  index_tip_scan_obj: data/assets/index_aligned_mm.obj # glove-wrapped index tip scan, CAD frame, mm
+  fixture_cad_glb: data/assets/hand_fixtured.glb       # fixture CAD (Onshape), m
+  out_root: outputs
+
+run:
+  tag: ""                    # non-empty: Stage D-F artefacts and viewers get a _<tag> suffix (variants side by side)
+  calib_tag: null            # which hand_calib Stage E-F / viewers read: null = run.tag, default = the default one
+
+smooth:                      # temporal smoothing as every stage after B loads the take (mosca/smooth.py)
+  method: rts                # none | butter | rts -- default: RTS on the raw marker tracks (2026-10-22)
+  target: markers            # markers = the raw marker tracks (then cap poses re-solved from them) | pose
+  butter: {cutoff_hz: 12.0, order: 4}
+  rts: {bandwidth_hz: 12.0, marker_noise_mm: 0.1, floor_mm: 0.02, max_gap_s: 0.1}
+  # OPTIONAL smoothing of the FITTED WRIST (calibration/track.py:smooth_wrist): there is no wrist marker set, so
+  # the MANO root is the knuckle cap through the binding, and the cap's jitter reaches the wrist amplified by the
+  # ~90 mm lever. The root pose is smoothed AT THE WRIST JOINT -- its world position and the root rotation -- at a
+  # lower bandwidth, the knuckle pose is re-derived from it, and the index is tracked against that. Tracked as its
+  # own variant (`run.tag=wristsmooth run.calib_tag=default smooth.wrist.enable=true`, see run_all.sh) and
+  # overlaid, optionally, in the hand viewers.
+  wrist:
+    enable: false
+    method: rts              # rts | butter
+    bandwidth_hz: 4.0
+
+# ------------------------------------------------------------------------------------------------- MoSca
+# Copied from TableMocap-toolkit-padab/kinematics-replay-bimanual/conf/reassignment.yaml (see the comments
+# there for where each number was measured). Changes for this rig are marked CHANGED.
+mosca:
+  tracklets:
+    noise_mm: 0.5
+    a_max_g: 10.0
+    v_max_m_s: 3.0
+    ratio: 0.5
+    ratio_floor_mm: 1.0
+    max_gap_s: 0.05
+
+  static:
+    drift_mm: 3.0
+    min_s: 2.0
+    claim_mm: 3.0
+
+  rigidity:
+    sample_hz: 30.0
+    min_segment_s: 0.25
+    must_overlap_s: 0.25
+    must_band_mm: 1.5
+    min_rotation_deg: 0.0
+    cannot_overlap_s: 0.04
+    cannot_band_mm: 2.5
+    max_pair_mm: 400.0
+    support: 2
+
+  naming:
+    frames: 15
+    min_separation_s: 0.2
+    min_markers: 4
+    min_explain: 0.6
+    triplet_tol_mm: 3.0
+    claim_mm: 4.0
+    rmse_max_mm: 2.0
+    body_share: 0.6
+    row_share: 0.6
+    anchor_mm: 80.0
+    emf_mm: 10.0
+    emf_veto_mm: 20.0
+    label_prior: true
+    label_share: 0.8
+    label_min_s: 0.1
+
+  local:                     # ADDED: mosca/run.py:name_local -- template search around Motive's body origin
+    frames: 400              # frames spread over the take that vote
+    margin_mm: 5.0           # neighbourhood = template radius + this
+
+  pose:
+    outlier_mm: 6.0
+    rmse_max_mm: 4.0
+    gate_k: 5.0
+    gate_floor_mm: 3.0
+    hold_s: 0.1
+    max_rate_deg_s: 2000.0
+    rate_slack_deg: 2.0
+    max_speed_m_s: 3.0
+    step_slack_mm: 5.0
+    pos_only: false          # CHANGED: a cap's position-from-2-markers is not a pose and nothing here consumes it
+    pos_hold_s: 2.0
+    pos_min_markers: 2
+    pos_pair_tol_mm: 4.0
+    pos_sigma_axis: 0.0174
+    pos_require_verified: true
+
+  recover:
+    use_emf: false           # CHANGED: no glove coils on this rig
+    min_votes_s: 0.025
+    min_share: 0.7
+    consistency: 0.5
+
+  partner:
+    min_overlap_s: 0.25
+    pair_std_mm: 0.75
+    eps_mm: 1.5
+    support: 2
+
+  split:
+    min_run_s: 0.05
+
+  iterations: 3
+
+  confidence:
+    full_s: 0.5
+    source: {group: 1.0, recover: 0.9, partner: 0.8, motive: 0.7}
+
+  template:                  # per-take template refinement (generalised Procrustes on the labelled markers)
+    min_markers: 5           # only frames where EVERY row is seen and accepted
+    max_frames: 3000
+    iterations: 3
+
+  floating:                  # the two single large markers on the index phalanges (mosca/floating.py)
+    radius_mm: 3.0
+    # A free segment is a candidate when its distance to the knuckle-cap origin AND to the tip-cap origin stays
+    # inside these windows over its life (p5..p95). Measured on both takes from the unlabeled tracks:
+    #   calibration: proximal 39 mm / 55 mm, middle 67 mm / 27 mm
+    #   free motion: proximal 45 +- 5 / 59 +- 8, middle 74 +- 7 / 30 +- 6
+    windows_mm:
+      proximal: {knuckle: [25.0, 60.0], tip: [35.0, 80.0]}
+      middle:   {knuckle: [50.0, 95.0], tip: [12.0, 45.0]}
+    min_segment_s: 0.1
+
+vis:
+  wrist_overlay_tag: wristsmooth  # the hand viewers overlay outputs/<take>/mano_track_<this>.npz when it exists
+
+# --------------------------------------------------------------------------------------------- MANO / fit
+mano:
+  model_dir: /home/ANT.AMAZON.COM/raofuu/Code/TableMocap-toolkit/data/mano/mano_clean   # MANO_RIGHT.pkl
+  # mano_clean + flat_hand_mean reproduces custom_pose_metric.obj to 1e-5 mm (calibration/mano_index.py)
+
+init:                        # Stage C: calibration/init_rig.py
+  cap_height_mm: 8.0         # cap origin above the dorsal skin, for the START only
+  float_height_mm: 4.0       # floating marker centre above the skin, for the START only
+  marker_base_mm: 0.0        # fixture marker centre = CAD surface + radius + this
+  fixture_template: asset    # the fixture markers fitted to the CAD: `asset` = .motive's defined offsets
+                             # (user decision 2026-10-22), `refined` = Stage B's calibration-take template
+  cad_samples: 200000
+  flat:                      # the fixture->CAD fit: every marker is snapped ON TOP or AT THE SIDE. Markers 8-17 of
+                             # the asset are coplanar (+-0.06 mm) -- the top ones; the other 8 are on side walls
+    tol_mm: 0.5              # coplanar subset tolerance
+    min_markers: 6
+    yaw_step_deg: 2.0        # yaw starts of the planar search
+    side_weight: 5.0         # markers snapped at the side fix the in-plane direction (yaw, x/y): weight them up
+    side_nz_max: 0.3         # a side marker may touch only near-vertical CAD faces (|n_z| <= this)
+  icp_iters: 60
+
+fit:                         # Stage D: calibration/fit_hand.py
+  betas_init: null           # null = data.mano_pose_json's betas; or an .npz with `betas` (e.g. the scan fit)
+  freeze_betas: false        # hold the betas at betas_init (scripts/compare_scan_mano.py uses this)
+  n_cal_frames: 200          # calibration take: the hand is static, a uniform sample is enough
+  n_free_frames: 600         # free_motion: farthest-point sampled over the motion range
+  fps_lever_mm: 30.0         # rotation (rad) x this, against the tip cap's position (mm), in the FPS metric
+  n_blocks: 10               # the takes are split into this many contiguous time blocks ...
+  holdout_blocks: [2, 7]     # ... and these never enter the fit (evaluation/fit_error.py reports them apart)
+  robust_scale_mm: 5.0       # Geman-McClure scale
+  h_min_mm: 3.0              # floating marker centre above the skin: the marker's ~3 mm radius ...
+  h_max_mm: 5.0              # ... plus up to 2 mm of base and glue
+  # the designed hand (hand_aligned_mm.obj through the plane-constrained, 0.2 mm fixture->CAD registration) is
+  # a STRONG prior on the hand's place in the fixture (user decision 2026-10-22: the registration is certain and
+  # the hand physically rests in the fixture). 1 mm or 1 deg off the design costs `weights.fixture` mm^2.
+  fixture_sigma_t_mm: 2.0    # default 2 mm / 2 deg at weight 1 (notes/2026-10-22_prior_and_smoothing.md)
+  fixture_sigma_r_deg: 2.0
+  freeze_fixture_cad: true   # T_fixture_from_cad held at Stage C's registration
+  rebind_every: 200
+  # >0: learn index MCP/PIP/DIP rest-pivot corrections inside a ball this big. With the hand held at the design
+  # (strong fixture prior) and MANO's own pivots, free-motion floats fit at 4.9 / 4.4 mm rms; with 10 mm of pivot
+  # freedom 2.3 / 1.5 mm (MCP moves ~9 mm). 2026-10-22, see notes/2026-10-22_calibration_pipeline.md
+  joint_offset_mm: 10.0
+  weights:
+    tip: 1.0
+    float: 1.0
+    joint: 1.0
+    cal_pose: 1.0            # deg^2 per joint axis toward the designed (flat) index: strong, the hand rests in the fixture
+    joint_offset: 0.01       # mm^2 per pivot: 10 mm of correction costs 1 mm^2
+    betas: 0.1               # ablation (notes): 1.0 -> 0.1 -> 0.01 moves free-motion float RMS 2.06 -> 2.0 -> 1.92 mm
+    height: 1.0
+    fixture: 1.0              # x ((dt/sig_t)^2 + (dr/sig_r)^2): 2 mm or 2 deg off the design costs 1 mm^2 (data ~1.5)
+  schedule:
+    - {name: poses,    iters: 400, lr: {pose: 0.02}}
+    - {name: bindings, iters: 800, lr: {pose: 0.01, binding_r: 0.005, binding_t: 0.0005, joint_offset: 0.01, float_uv: 0.01, float_h: 0.0002, fixture: 0.002}}
+    - {name: betas,    iters: 400, lr: {pose: 0.01, betas: 0.01}}
+    - {name: bindings, iters: 600, lr: {pose: 0.005, binding_r: 0.002, binding_t: 0.0002, joint_offset: 0.005, float_uv: 0.005, float_h: 0.0001, fixture: 0.001}}
+    - {name: betas,    iters: 400, lr: {pose: 0.005, betas: 0.005}}
+    - {name: polish,   iters: 600, lr: {pose: 0.002, binding_r: 0.0005, binding_t: 0.00005, joint_offset: 0.002, float_uv: 0.002, float_h: 0.00005, betas: 0.001, fixture: 0.0005}}
+
+track:                       # Stage E: calibration/track.py -- per-frame index pose, calibration frozen
+  chunk: 1024
+  iters_tip: 200             # pass 1: tip cap only (to predict the floating markers for the re-claim)
+  iters_full: 300            # pass 2: tip cap + re-claimed floating markers
+  lr: 0.02
+  smooth: 0.05               # deg^2 between consecutive frames (240 Hz)
+  reclaim_gate_mm: 8.0

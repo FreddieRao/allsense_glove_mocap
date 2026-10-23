@@ -1,0 +1,379 @@
+{
+  "source": "evaluation/fit_error.py",
+  "calibration": "outputs/calibration/hand_calib_prior2w1_butter.json",
+  "run_tag": "prior2w1_butter",
+  "takes": {
+    "calibration": {
+      "all": {
+        "tip_cap": {
+          "rms_mm": 0.299,
+          "p50_mm": 0.228,
+          "p90_mm": 0.455,
+          "p99_mm": 0.774,
+          "within_3mm": 1.0,
+          "n": 44005
+        },
+        "knuckle_cap": {
+          "rms_mm": 0.177,
+          "p50_mm": 0.121,
+          "p90_mm": 0.241,
+          "p99_mm": 0.489,
+          "within_3mm": 1.0,
+          "n": 43621
+        },
+        "float_proximal": {
+          "rms_mm": 0.475,
+          "p50_mm": 0.39,
+          "p90_mm": 0.678,
+          "p99_mm": 1.016,
+          "within_3mm": 1.0,
+          "n": 8801,
+          "coverage": 1.0
+        },
+        "float_middle": {
+          "rms_mm": 0.325,
+          "p50_mm": 0.241,
+          "p90_mm": 0.522,
+          "p99_mm": 0.641,
+          "within_3mm": 1.0,
+          "n": 8801,
+          "coverage": 1.0
+        },
+        "float_proximal_win": {
+          "rms_mm": 0.475,
+          "p50_mm": 0.39,
+          "p90_mm": 0.678,
+          "p99_mm": 1.016,
+          "within_3mm": 1.0,
+          "n": 8801
+        },
+        "float_middle_win": {
+          "rms_mm": 0.325,
+          "p50_mm": 0.241,
+          "p90_mm": 0.522,
+          "p99_mm": 0.641,
+          "within_3mm": 1.0,
+          "n": 8801
+        },
+        "frames": 8801
+      },
+      "float_vs_pip_flexion": {
+        "-20..10 deg": {
+          "frames": 8801,
+          "proximal_rms_mm": 0.475,
+          "middle_rms_mm": 0.325,
+          "tip_rms_mm": 0.299
+        }
+      },
+      "output_smoothness": {
+        "tip_vertex_jitter_mm_rms_p95": [
+          0.0964,
+          0.1654
+        ],
+        "mcp_flex_jitter_deg_rms_p95": [
+          0.0444,
+          0.0927
+        ],
+        "pip_flex_jitter_deg_rms_p95": [
+          0.0437,
+          0.0878
+        ],
+        "dip_flex_jitter_deg_rms_p95": [
+          0.0497,
+          0.1007
+        ]
+      },
+      "index_flexion_range_deg_p1_p99": {
+        "mcp": [
+          -4.8,
+          1.9
+        ],
+        "pip": [
+          1.0,
+          7.2
+        ],
+        "dip": [
+          -5.8,
+          1.8
+        ]
+      }
+    },
+    "free_motion": {
+      "all": {
+        "tip_cap": {
+          "rms_mm": 0.584,
+          "p50_mm": 0.395,
+          "p90_mm": 0.91,
+          "p99_mm": 1.606,
+          "within_3mm": 0.9994,
+          "n": 98926
+        },
+        "knuckle_cap": {
+          "rms_mm": 0.18,
+          "p50_mm": 0.135,
+          "p90_mm": 0.274,
+          "p99_mm": 0.449,
+          "within_3mm": 1.0,
+          "n": 99721
+        },
+        "float_proximal": {
+          "rms_mm": 1.855,
+          "p50_mm": 1.24,
+          "p90_mm": 2.64,
+          "p99_mm": 5.814,
+          "within_3mm": 0.9258,
+          "n": 20083,
+          "coverage": 0.996
+        },
+        "float_middle": {
+          "rms_mm": 1.205,
+          "p50_mm": 0.71,
+          "p90_mm": 1.865,
+          "p99_mm": 3.972,
+          "within_3mm": 0.977,
+          "n": 20101,
+          "coverage": 0.9969
+        },
+        "float_proximal_win": {
+          "rms_mm": 1.91,
+          "p50_mm": 1.243,
+          "p90_mm": 2.685,
+          "p99_mm": 6.241,
+          "within_3mm": 0.922,
+          "n": 20164
+        },
+        "float_middle_win": {
+          "rms_mm": 1.245,
+          "p50_mm": 0.711,
+          "p90_mm": 1.876,
+          "p99_mm": 4.274,
+          "within_3mm": 0.9753,
+          "n": 20137
+        },
+        "frames": 20164
+      },
+      "fit": {
+        "tip_cap": {
+          "rms_mm": 0.662,
+          "p50_mm": 0.451,
+          "p90_mm": 1.034,
+          "p99_mm": 1.7,
+          "within_3mm": 0.9986,
+          "n": 2927
+        },
+        "knuckle_cap": {
+          "rms_mm": 0.178,
+          "p50_mm": 0.134,
+          "p90_mm": 0.275,
+          "p99_mm": 0.449,
+          "within_3mm": 1.0,
+          "n": 2981
+        },
+        "float_proximal": {
+          "rms_mm": 1.997,
+          "p50_mm": 1.141,
+          "p90_mm": 3.424,
+          "p99_mm": 5.634,
+          "within_3mm": 0.8718,
+          "n": 593
+        },
+        "float_middle": {
+          "rms_mm": 1.418,
+          "p50_mm": 0.773,
+          "p90_mm": 2.171,
+          "p99_mm": 4.617,
+          "within_3mm": 0.9531,
+          "n": 597
+        },
+        "float_proximal_win": {
+          "rms_mm": 2.136,
+          "p50_mm": 1.15,
+          "p90_mm": 3.531,
+          "p99_mm": 7.038,
+          "within_3mm": 0.8617,
+          "n": 600
+        },
+        "float_middle_win": {
+          "rms_mm": 1.476,
+          "p50_mm": 0.776,
+          "p90_mm": 2.176,
+          "p99_mm": 4.78,
+          "within_3mm": 0.9499,
+          "n": 599
+        },
+        "frames": 600
+      },
+      "heldout": {
+        "tip_cap": {
+          "rms_mm": 0.537,
+          "p50_mm": 0.379,
+          "p90_mm": 0.835,
+          "p99_mm": 1.393,
+          "within_3mm": 1.0,
+          "n": 19826
+        },
+        "knuckle_cap": {
+          "rms_mm": 0.196,
+          "p50_mm": 0.154,
+          "p90_mm": 0.3,
+          "p99_mm": 0.455,
+          "within_3mm": 1.0,
+          "n": 20100
+        },
+        "float_proximal": {
+          "rms_mm": 1.367,
+          "p50_mm": 1.088,
+          "p90_mm": 2.171,
+          "p99_mm": 2.521,
+          "within_3mm": 1.0,
+          "n": 4048
+        },
+        "float_middle": {
+          "rms_mm": 1.112,
+          "p50_mm": 0.778,
+          "p90_mm": 1.785,
+          "p99_mm": 2.732,
+          "within_3mm": 0.996,
+          "n": 4048
+        },
+        "float_proximal_win": {
+          "rms_mm": 1.367,
+          "p50_mm": 1.088,
+          "p90_mm": 2.171,
+          "p99_mm": 2.521,
+          "within_3mm": 1.0,
+          "n": 4048
+        },
+        "float_middle_win": {
+          "rms_mm": 1.112,
+          "p50_mm": 0.778,
+          "p90_mm": 1.785,
+          "p99_mm": 2.732,
+          "within_3mm": 0.996,
+          "n": 4048
+        },
+        "frames": 4048
+      },
+      "rest": {
+        "tip_cap": {
+          "rms_mm": 0.593,
+          "p50_mm": 0.397,
+          "p90_mm": 0.922,
+          "p99_mm": 1.642,
+          "within_3mm": 0.9993,
+          "n": 76173
+        },
+        "knuckle_cap": {
+          "rms_mm": 0.175,
+          "p50_mm": 0.131,
+          "p90_mm": 0.265,
+          "p99_mm": 0.447,
+          "within_3mm": 1.0,
+          "n": 76640
+        },
+        "float_proximal": {
+          "rms_mm": 1.957,
+          "p50_mm": 1.284,
+          "p90_mm": 2.916,
+          "p99_mm": 6.144,
+          "within_3mm": 0.9084,
+          "n": 15442
+        },
+        "float_middle": {
+          "rms_mm": 1.22,
+          "p50_mm": 0.693,
+          "p90_mm": 1.862,
+          "p99_mm": 4.274,
+          "within_3mm": 0.973,
+          "n": 15456
+        },
+        "float_proximal_win": {
+          "rms_mm": 2.019,
+          "p50_mm": 1.287,
+          "p90_mm": 2.962,
+          "p99_mm": 6.363,
+          "within_3mm": 0.904,
+          "n": 15516
+        },
+        "float_middle_win": {
+          "rms_mm": 1.268,
+          "p50_mm": 0.694,
+          "p90_mm": 1.874,
+          "p99_mm": 4.381,
+          "within_3mm": 0.9708,
+          "n": 15490
+        },
+        "frames": 15516
+      },
+      "float_vs_pip_flexion": {
+        "-20..10 deg": {
+          "frames": 9295,
+          "proximal_rms_mm": 2.085,
+          "middle_rms_mm": 1.527,
+          "tip_rms_mm": 0.5
+        },
+        "10..30 deg": {
+          "frames": 2253,
+          "proximal_rms_mm": 1.73,
+          "middle_rms_mm": 1.203,
+          "tip_rms_mm": 0.439
+        },
+        "30..50 deg": {
+          "frames": 2322,
+          "proximal_rms_mm": 1.303,
+          "middle_rms_mm": 0.91,
+          "tip_rms_mm": 0.464
+        },
+        "50..70 deg": {
+          "frames": 1846,
+          "proximal_rms_mm": 1.066,
+          "middle_rms_mm": 0.487,
+          "tip_rms_mm": 0.512
+        },
+        "70..130 deg": {
+          "frames": 4448,
+          "proximal_rms_mm": 1.911,
+          "middle_rms_mm": 0.669,
+          "tip_rms_mm": 0.857
+        }
+      },
+      "output_smoothness": {
+        "tip_vertex_jitter_mm_rms_p95": [
+          0.2584,
+          0.5183
+        ],
+        "mcp_flex_jitter_deg_rms_p95": [
+          0.115,
+          0.2261
+        ],
+        "pip_flex_jitter_deg_rms_p95": [
+          0.1802,
+          0.3779
+        ],
+        "dip_flex_jitter_deg_rms_p95": [
+          0.1224,
+          0.2171
+        ]
+      },
+      "index_flexion_range_deg_p1_p99": {
+        "mcp": [
+          7.7,
+          86.4
+        ],
+        "pip": [
+          -10.2,
+          107.1
+        ],
+        "dip": [
+          -11.0,
+          18.3
+        ]
+      }
+    }
+  },
+  "floating_height_mm": {
+    "proximal": 3.979,
+    "middle": 4.975
+  },
+  "floating_radius_mm": 3.0
+}
