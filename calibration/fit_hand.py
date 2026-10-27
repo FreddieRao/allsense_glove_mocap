@@ -23,6 +23,8 @@ THE TERMS (mm^2 units, Geman-McClure at `robust_mm`):
     tip      every tip-cap marker, both takes
     float    every floating-marker observation, both takes
     joint    index joint ranges (hand_model.JOINT_RANGE_DEG)
+    distal_dir the distal bone direction (DIP -> tip vertex) against the direction the measured tip cap implies,
+             in every frame of both takes (hand_model.distal_dir_deg2)
     cal_pose theta_cal toward the flat hand
     betas    toward custom_pose.json's betas: only the index and palm are observed, so the other fingers'
              shape must be held by this prior
@@ -55,8 +57,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from calibration.common import (ROOT, T_cad_from_canonical, T_from_json, T_json, apply, inv_se3,       # noqa: E402
                                 load_rig, rot_deg, write_json)
-from calibration.hand_model import (FLOAT_LABELS, Calib, Delta, init_index_pose, joint_penalty,         # noqa: E402
-                                    make_frames, robust_mm, valid_frames)
+from calibration.hand_model import (FLOAT_LABELS, Calib, Delta, distal_dir_deg2, init_index_pose,      # noqa: E402
+                                    joint_penalty, make_frames, robust_mm, valid_frames)
 from calibration.mano_index import INDEX_TIP_VERTEX, ManoIndex                                        # noqa: E402
 from config import load_config, strip_overrides                                                      # noqa: E402
 
@@ -139,6 +141,7 @@ def fit(cfg, tag: str = "") -> dict:
     dev = mano.device
     base_pose = np.asarray(init["hand_pose"], float)
     init_np["joint_offset_radius_m"] = float(fc.joint_offset_mm) / 1000.0
+    init_np["distal_dir_tipcap"] = init["distal_dir_tipcap"]
     calib = Calib(mano, init_np, rig_cal.bodies["tip"].template_body, base_pose).to(dev)
 
     # ---- frames
@@ -175,6 +178,7 @@ def fit(cfg, tag: str = "") -> dict:
             "float": 0.5 * (robust_mm(pc["float"] - F_cal.float_obs, F_cal.float_mask, s)
                             + robust_mm(pf["float"] - F_free.float_obs, F_free.float_mask, s)),
             "joint": joint_penalty(torch.cat([theta_cal, theta_free])),
+            "distal_dir": 0.5 * (distal_dir_deg2(calib, pc, F_cal) + distal_dir_deg2(calib, pf, F_free)),
             "cal_pose": (torch.rad2deg(theta_cal) ** 2).mean(),
             "betas": ((calib.betas - calib.betas0) ** 2).sum(),
             "joint_offset": ((calib.index_joint_offset * 1000.0) ** 2).sum(),
@@ -295,6 +299,7 @@ def fit(cfg, tag: str = "") -> dict:
         "index_joint_offset_mm": {j: (calib.index_joint_offset[k].detach().cpu().numpy() * 1000.0).round(3)
                                   for k, j in enumerate(("mcp", "pip", "dip"))},
         "index_joint_offset_m": calib.index_joint_offset.detach().cpu().numpy(),
+        "distal_dir_tipcap": calib.distal_dir_tipcap.cpu().numpy(), "distal_dir_source": init.get("distal_dir_source"),
         "joint_offset_radius_mm": float(fc.joint_offset_mm),
         "betas": betas, "betas_init": init_np["betas"], "betas_init_source": fc.betas_init or cfg.data.mano_pose_json,
         "betas_frozen": bool(fc.freeze_betas),

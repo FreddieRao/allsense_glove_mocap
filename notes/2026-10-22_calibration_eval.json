@@ -6,52 +6,60 @@
     "calibration": {
       "all": {
         "tip_cap": {
-          "rms_mm": 0.306,
-          "p50_mm": 0.231,
-          "p90_mm": 0.469,
-          "p99_mm": 0.788,
+          "rms_mm": 0.315,
+          "p50_mm": 0.247,
+          "p90_mm": 0.495,
+          "p99_mm": 0.694,
           "within_3mm": 1.0,
           "n": 44005
         },
         "knuckle_cap": {
           "rms_mm": 0.176,
-          "p50_mm": 0.12,
+          "p50_mm": 0.121,
           "p90_mm": 0.241,
           "p99_mm": 0.488,
           "within_3mm": 1.0,
           "n": 43621
         },
         "float_proximal": {
-          "rms_mm": 0.482,
-          "p50_mm": 0.397,
-          "p90_mm": 0.686,
-          "p99_mm": 1.015,
+          "rms_mm": 0.517,
+          "p50_mm": 0.432,
+          "p90_mm": 0.727,
+          "p99_mm": 1.066,
           "within_3mm": 1.0,
           "n": 8801,
           "coverage": 1.0
         },
         "float_middle": {
-          "rms_mm": 0.341,
-          "p50_mm": 0.258,
-          "p90_mm": 0.541,
-          "p99_mm": 0.665,
+          "rms_mm": 0.272,
+          "p50_mm": 0.206,
+          "p90_mm": 0.435,
+          "p99_mm": 0.512,
           "within_3mm": 1.0,
           "n": 8801,
           "coverage": 1.0
         },
         "float_proximal_win": {
-          "rms_mm": 0.482,
-          "p50_mm": 0.397,
-          "p90_mm": 0.686,
-          "p99_mm": 1.015,
+          "rms_mm": 0.517,
+          "p50_mm": 0.432,
+          "p90_mm": 0.727,
+          "p99_mm": 1.066,
           "within_3mm": 1.0,
           "n": 8801
         },
         "float_middle_win": {
-          "rms_mm": 0.341,
-          "p50_mm": 0.258,
-          "p90_mm": 0.541,
-          "p99_mm": 0.665,
+          "rms_mm": 0.272,
+          "p50_mm": 0.206,
+          "p90_mm": 0.435,
+          "p99_mm": 0.512,
+          "within_3mm": 1.0,
+          "n": 8801
+        },
+        "distal_dir_deg": {
+          "rms_mm": 1.166,
+          "p50_mm": 0.923,
+          "p90_mm": 1.871,
+          "p99_mm": 2.543,
           "within_3mm": 1.0,
           "n": 8801
         },
@@ -60,60 +68,60 @@
       "float_vs_pip_flexion": {
         "-20..10 deg": {
           "frames": 8801,
-          "proximal_rms_mm": 0.482,
-          "middle_rms_mm": 0.341,
-          "tip_rms_mm": 0.306
+          "proximal_rms_mm": 0.517,
+          "middle_rms_mm": 0.272,
+          "tip_rms_mm": 0.315
         }
       },
       "output_smoothness": {
         "tip_vertex_jitter_mm_rms_p95": [
-          0.079,
-          0.143
+          0.0746,
+          0.1356
         ],
         "wrist_joint_jitter_mm_rms_p95": [
           0.0953,
           0.1527
         ],
         "index_mcp_jitter_mm_rms_p95": [
-          0.0629,
+          0.0628,
           0.1176
         ],
         "mcp_flex_jitter_deg_rms_p95": [
-          0.0612,
-          0.0934
+          0.0578,
+          0.0867
         ],
         "pip_flex_jitter_deg_rms_p95": [
-          0.0234,
-          0.0457
+          0.0233,
+          0.0462
         ],
         "dip_flex_jitter_deg_rms_p95": [
-          0.0506,
-          0.0902
+          0.046,
+          0.0822
         ]
       },
       "index_flexion_range_deg_p1_p99": {
         "mcp": [
-          -4.8,
-          2.0
+          -4.5,
+          1.8
         ],
         "pip": [
-          0.9,
-          7.1
+          0.8,
+          6.3
         ],
         "dip": [
-          -5.8,
-          1.8
+          -5.5,
+          1.9
         ]
       }
     },
     "free_motion": {
       "all": {
         "tip_cap": {
-          "rms_mm": 0.603,
-          "p50_mm": 0.42,
-          "p90_mm": 0.938,
-          "p99_mm": 1.599,
-          "within_3mm": 0.9994,
+          "rms_mm": 0.583,
+          "p50_mm": 0.436,
+          "p90_mm": 0.875,
+          "p99_mm": 1.529,
+          "within_3mm": 0.9997,
           "n": 98926
         },
         "knuckle_cap": {
@@ -125,48 +133,56 @@
           "n": 99721
         },
         "float_proximal": {
-          "rms_mm": 1.86,
-          "p50_mm": 1.237,
-          "p90_mm": 2.64,
-          "p99_mm": 5.914,
-          "within_3mm": 0.9259,
-          "n": 20072,
-          "coverage": 0.9954
+          "rms_mm": 1.933,
+          "p50_mm": 1.304,
+          "p90_mm": 2.689,
+          "p99_mm": 6.34,
+          "within_3mm": 0.9211,
+          "n": 20135,
+          "coverage": 0.9986
         },
         "float_middle": {
-          "rms_mm": 1.212,
-          "p50_mm": 0.712,
-          "p90_mm": 1.868,
-          "p99_mm": 4.024,
-          "within_3mm": 0.9764,
-          "n": 19974,
-          "coverage": 0.9906
+          "rms_mm": 1.257,
+          "p50_mm": 0.883,
+          "p90_mm": 1.908,
+          "p99_mm": 3.706,
+          "within_3mm": 0.9775,
+          "n": 20021,
+          "coverage": 0.9929
         },
         "float_proximal_win": {
-          "rms_mm": 1.908,
-          "p50_mm": 1.24,
-          "p90_mm": 2.686,
-          "p99_mm": 6.256,
-          "within_3mm": 0.9228,
+          "rms_mm": 1.956,
+          "p50_mm": 1.305,
+          "p90_mm": 2.714,
+          "p99_mm": 6.38,
+          "within_3mm": 0.9198,
           "n": 20164
         },
         "float_middle_win": {
-          "rms_mm": 1.265,
-          "p50_mm": 0.716,
-          "p90_mm": 1.928,
-          "p99_mm": 4.278,
-          "within_3mm": 0.974,
+          "rms_mm": 1.338,
+          "p50_mm": 0.887,
+          "p90_mm": 1.949,
+          "p99_mm": 4.283,
+          "within_3mm": 0.9718,
           "n": 20137
+        },
+        "distal_dir_deg": {
+          "rms_mm": 1.741,
+          "p50_mm": 1.422,
+          "p90_mm": 2.655,
+          "p99_mm": 3.762,
+          "within_3mm": 0.9495,
+          "n": 20164
         },
         "frames": 20164
       },
       "fit": {
         "tip_cap": {
-          "rms_mm": 0.686,
-          "p50_mm": 0.485,
-          "p90_mm": 1.077,
-          "p99_mm": 1.743,
-          "within_3mm": 0.9993,
+          "rms_mm": 0.654,
+          "p50_mm": 0.487,
+          "p90_mm": 0.986,
+          "p99_mm": 1.682,
+          "within_3mm": 1.0,
           "n": 2931
         },
         "knuckle_cap": {
@@ -178,97 +194,113 @@
           "n": 2977
         },
         "float_proximal": {
-          "rms_mm": 2.01,
-          "p50_mm": 1.138,
-          "p90_mm": 3.413,
-          "p99_mm": 5.677,
-          "within_3mm": 0.8769,
-          "n": 593
+          "rms_mm": 2.158,
+          "p50_mm": 1.218,
+          "p90_mm": 3.594,
+          "p99_mm": 6.414,
+          "within_3mm": 0.8662,
+          "n": 598
         },
         "float_middle": {
-          "rms_mm": 1.422,
-          "p50_mm": 0.772,
-          "p90_mm": 2.157,
-          "p99_mm": 4.595,
-          "within_3mm": 0.9579,
-          "n": 594
+          "rms_mm": 1.482,
+          "p50_mm": 0.966,
+          "p90_mm": 2.234,
+          "p99_mm": 4.383,
+          "within_3mm": 0.9597,
+          "n": 596
         },
         "float_proximal_win": {
-          "rms_mm": 2.129,
-          "p50_mm": 1.147,
-          "p90_mm": 3.532,
-          "p99_mm": 7.037,
-          "within_3mm": 0.8683,
+          "rms_mm": 2.197,
+          "p50_mm": 1.219,
+          "p90_mm": 3.623,
+          "p99_mm": 6.965,
+          "within_3mm": 0.8633,
           "n": 600
         },
         "float_middle_win": {
-          "rms_mm": 1.492,
-          "p50_mm": 0.78,
-          "p90_mm": 2.218,
-          "p99_mm": 4.842,
-          "within_3mm": 0.9533,
+          "rms_mm": 1.558,
+          "p50_mm": 0.974,
+          "p90_mm": 2.282,
+          "p99_mm": 4.515,
+          "within_3mm": 0.9549,
           "n": 599
+        },
+        "distal_dir_deg": {
+          "rms_mm": 1.775,
+          "p50_mm": 1.346,
+          "p90_mm": 2.671,
+          "p99_mm": 4.442,
+          "within_3mm": 0.9383,
+          "n": 600
         },
         "frames": 600
       },
       "heldout": {
         "tip_cap": {
-          "rms_mm": 0.557,
-          "p50_mm": 0.402,
-          "p90_mm": 0.867,
-          "p99_mm": 1.406,
+          "rms_mm": 0.537,
+          "p50_mm": 0.404,
+          "p90_mm": 0.81,
+          "p99_mm": 1.455,
           "within_3mm": 1.0,
           "n": 19826
         },
         "knuckle_cap": {
           "rms_mm": 0.196,
-          "p50_mm": 0.153,
+          "p50_mm": 0.154,
           "p90_mm": 0.3,
           "p99_mm": 0.452,
           "within_3mm": 1.0,
           "n": 20100
         },
         "float_proximal": {
-          "rms_mm": 1.361,
-          "p50_mm": 1.086,
-          "p90_mm": 2.168,
-          "p99_mm": 2.505,
+          "rms_mm": 1.407,
+          "p50_mm": 1.204,
+          "p90_mm": 2.183,
+          "p99_mm": 2.528,
           "within_3mm": 1.0,
           "n": 4048
         },
         "float_middle": {
-          "rms_mm": 1.118,
-          "p50_mm": 0.803,
-          "p90_mm": 1.773,
-          "p99_mm": 2.692,
-          "within_3mm": 0.996,
-          "n": 4048
+          "rms_mm": 1.101,
+          "p50_mm": 0.921,
+          "p90_mm": 1.554,
+          "p99_mm": 2.575,
+          "within_3mm": 0.9993,
+          "n": 4007
         },
         "float_proximal_win": {
-          "rms_mm": 1.361,
-          "p50_mm": 1.086,
-          "p90_mm": 2.168,
-          "p99_mm": 2.505,
+          "rms_mm": 1.407,
+          "p50_mm": 1.204,
+          "p90_mm": 2.183,
+          "p99_mm": 2.528,
           "within_3mm": 1.0,
           "n": 4048
         },
         "float_middle_win": {
-          "rms_mm": 1.118,
-          "p50_mm": 0.803,
-          "p90_mm": 1.773,
-          "p99_mm": 2.692,
-          "within_3mm": 0.996,
+          "rms_mm": 1.16,
+          "p50_mm": 0.924,
+          "p90_mm": 1.649,
+          "p99_mm": 3.159,
+          "within_3mm": 0.9891,
+          "n": 4048
+        },
+        "distal_dir_deg": {
+          "rms_mm": 1.605,
+          "p50_mm": 1.146,
+          "p90_mm": 2.603,
+          "p99_mm": 3.354,
+          "within_3mm": 0.9622,
           "n": 4048
         },
         "frames": 4048
       },
       "rest": {
         "tip_cap": {
-          "rms_mm": 0.611,
-          "p50_mm": 0.422,
-          "p90_mm": 0.95,
-          "p99_mm": 1.63,
-          "within_3mm": 0.9993,
+          "rms_mm": 0.592,
+          "p50_mm": 0.444,
+          "p90_mm": 0.885,
+          "p99_mm": 1.552,
+          "within_3mm": 0.9996,
           "n": 76169
         },
         "knuckle_cap": {
@@ -280,116 +312,124 @@
           "n": 76644
         },
         "float_proximal": {
-          "rms_mm": 1.964,
-          "p50_mm": 1.282,
-          "p90_mm": 2.916,
-          "p99_mm": 6.175,
-          "within_3mm": 0.9083,
-          "n": 15431
+          "rms_mm": 2.04,
+          "p50_mm": 1.335,
+          "p90_mm": 2.966,
+          "p99_mm": 6.394,
+          "within_3mm": 0.9026,
+          "n": 15489
         },
         "float_middle": {
-          "rms_mm": 1.227,
-          "p50_mm": 0.691,
-          "p90_mm": 1.868,
-          "p99_mm": 4.292,
-          "within_3mm": 0.972,
-          "n": 15332
+          "rms_mm": 1.285,
+          "p50_mm": 0.864,
+          "p90_mm": 1.939,
+          "p99_mm": 3.998,
+          "within_3mm": 0.9725,
+          "n": 15418
         },
         "float_proximal_win": {
-          "rms_mm": 2.018,
-          "p50_mm": 1.285,
-          "p90_mm": 2.953,
-          "p99_mm": 6.352,
-          "within_3mm": 0.9047,
+          "rms_mm": 2.067,
+          "p50_mm": 1.336,
+          "p90_mm": 2.985,
+          "p99_mm": 6.441,
+          "within_3mm": 0.9011,
           "n": 15516
         },
         "float_middle_win": {
-          "rms_mm": 1.291,
-          "p50_mm": 0.698,
-          "p90_mm": 1.936,
-          "p99_mm": 4.393,
-          "within_3mm": 0.9691,
+          "rms_mm": 1.373,
+          "p50_mm": 0.868,
+          "p90_mm": 1.974,
+          "p99_mm": 4.392,
+          "within_3mm": 0.968,
           "n": 15490
+        },
+        "distal_dir_deg": {
+          "rms_mm": 1.773,
+          "p50_mm": 1.462,
+          "p90_mm": 2.671,
+          "p99_mm": 3.847,
+          "within_3mm": 0.9466,
+          "n": 15516
         },
         "frames": 15516
       },
       "float_vs_pip_flexion": {
         "-20..10 deg": {
-          "frames": 9318,
-          "proximal_rms_mm": 2.094,
-          "middle_rms_mm": 1.53,
-          "tip_rms_mm": 0.525
+          "frames": 9254,
+          "proximal_rms_mm": 2.164,
+          "middle_rms_mm": 1.521,
+          "tip_rms_mm": 0.537
         },
         "10..30 deg": {
-          "frames": 2239,
-          "proximal_rms_mm": 1.727,
-          "middle_rms_mm": 1.199,
-          "tip_rms_mm": 0.468
+          "frames": 2359,
+          "proximal_rms_mm": 1.773,
+          "middle_rms_mm": 1.146,
+          "tip_rms_mm": 0.471
         },
         "30..50 deg": {
-          "frames": 2313,
-          "proximal_rms_mm": 1.292,
-          "middle_rms_mm": 0.933,
-          "tip_rms_mm": 0.494
+          "frames": 2389,
+          "proximal_rms_mm": 1.314,
+          "middle_rms_mm": 0.806,
+          "tip_rms_mm": 0.471
         },
         "50..70 deg": {
-          "frames": 1844,
-          "proximal_rms_mm": 1.06,
-          "middle_rms_mm": 0.509,
-          "tip_rms_mm": 0.54
+          "frames": 1925,
+          "proximal_rms_mm": 1.213,
+          "middle_rms_mm": 0.565,
+          "tip_rms_mm": 0.505
         },
         "70..130 deg": {
-          "frames": 4450,
-          "proximal_rms_mm": 1.914,
-          "middle_rms_mm": 0.664,
-          "tip_rms_mm": 0.86
+          "frames": 4237,
+          "proximal_rms_mm": 2.042,
+          "middle_rms_mm": 1.113,
+          "tip_rms_mm": 0.805
         }
       },
       "output_smoothness": {
         "tip_vertex_jitter_mm_rms_p95": [
-          0.1984,
-          0.411
+          0.1972,
+          0.4094
         ],
         "wrist_joint_jitter_mm_rms_p95": [
           0.0998,
           0.1818
         ],
         "index_mcp_jitter_mm_rms_p95": [
-          0.0481,
-          0.0877
+          0.048,
+          0.0875
         ],
         "mcp_flex_jitter_deg_rms_p95": [
-          0.102,
-          0.1995
+          0.1007,
+          0.1982
         ],
         "pip_flex_jitter_deg_rms_p95": [
-          0.1483,
-          0.2951
+          0.1553,
+          0.2769
         ],
         "dip_flex_jitter_deg_rms_p95": [
-          0.1087,
-          0.1705
+          0.115,
+          0.195
         ]
       },
       "index_flexion_range_deg_p1_p99": {
         "mcp": [
           7.8,
-          86.4
+          86.7
         ],
         "pip": [
           -10.2,
-          107.3
+          102.7
         ],
         "dip": [
-          -11.0,
-          20.1
+          -10.4,
+          28.1
         ]
       }
     }
   },
   "floating_height_mm": {
-    "proximal": 3.97,
-    "middle": 5.011
+    "proximal": 3.98,
+    "middle": 4.927
   },
   "floating_radius_mm": 3.0
 }

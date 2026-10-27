@@ -149,6 +149,12 @@ mano:
   model_dir: /home/ANT.AMAZON.COM/raofuu/Code/TableMocap-toolkit/data/mano/mano_clean   # MANO_RIGHT.pkl
   # mano_clean + flat_hand_mean reproduces custom_pose_metric.obj to 1e-5 mm (calibration/mano_index.py)
 
+distal_dir:                  # the distal bone direction term (hand_model.distal_dir_deg2), Stage D and E
+  # the bone direction in the tip-cap frame, from the calibration take through the certain fixture registration:
+  # `design` = DIP -> tip vertex of hand_aligned_mm.obj; `scan` = the long axis of index_aligned_mm.obj (weakly
+  # defined: singular values 574/415/322, 7 deg off the design -- the cap mount biases it)
+  source: design
+
 init:                        # Stage C: calibration/init_rig.py
   cap_height_mm: 8.0         # cap origin above the dorsal skin, for the START only
   float_height_mm: 4.0       # floating marker centre above the skin, for the START only
@@ -191,6 +197,7 @@ fit:                         # Stage D: calibration/fit_hand.py
     tip: 1.0
     float: 1.0
     joint: 1.0
+    distal_dir: 0.05         # deg^2: a 4.5 deg disagreement with the cap-implied direction costs 1 mm^2
     cal_pose: 1.0            # deg^2 per joint axis toward the designed (flat) index: strong, the hand rests in the fixture
     joint_offset: 0.01       # mm^2 per pivot: 10 mm of correction costs 1 mm^2
     betas: 0.1               # ablation (notes): 1.0 -> 0.1 -> 0.01 moves free-motion float RMS 2.06 -> 2.0 -> 1.92 mm
@@ -210,4 +217,5 @@ track:                       # Stage E: calibration/track.py -- per-frame index 
   iters_full: 300            # pass 2: tip cap + re-claimed floating markers
   lr: 0.02
   smooth: 0.05               # deg^2 between consecutive frames (240 Hz)
+  distal_dir_weight: 0.05    # the same distal-direction term per frame while tracking (0 = off)
   reclaim_gate_mm: 8.0

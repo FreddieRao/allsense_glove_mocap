@@ -342,6 +342,24 @@ def main() -> None:
     print(f"  tip cap origin -> MANO tip vertex {tip_cap_to_tipvertex:.1f} mm; knuckle cap origin -> MCP joint "
           f"{kn_to_mcp:.1f} mm", flush=True)
 
+    # --- the DISTAL BONE DIRECTION in the tip cap's frame (Stage D/E `distal_dir` term). In the calibration take
+    # the fixture registration is certain, so the tip cap's pose in the CAD frame is known, and the designed hand's
+    # distal bone (DIP joint -> index tip vertex of hand_aligned_mm.obj) gives the bone's direction relative to the
+    # cap it is mounted under. The cap is glued on the tip, so that direction is constant in the cap frame.
+    T_cad_tip = T_cad_fix @ rs["tip"]["T"]
+    J3_design = apply(T_cad_can, J_can[3, :3, 3])
+    d_design = V_cad[INDEX_TIP_VERTEX] - J3_design
+    d_design /= np.linalg.norm(d_design)
+    import trimesh
+    scan = np.asarray(trimesh.load(ROOT / cfg.data.index_tip_scan_obj, force="mesh").vertices) / 1000.0
+    d_scan = np.linalg.svd(scan - scan.mean(0), full_matrices=False)[2][0]
+    d_scan *= np.sign(d_scan @ d_design)
+    src = str(cfg.distal_dir.source)
+    d_cad = d_design if src == "design" else d_scan
+    d_tipcap = T_cad_tip[:3, :3].T @ d_cad
+    print(f"distal bone direction ({src}) in the tip-cap frame {np.round(d_tipcap, 3).tolist()}; design vs scan "
+          f"axis {np.degrees(np.arccos(np.clip(d_design @ d_scan, -1, 1))):.1f} deg", flush=True)
+
     out = {"stage": "C init_rig", "frames": rs["frames"],
            "slip": {k: {kk: v for kk, v in rs[k].items() if kk.startswith("slip")} for k in
                     ("knuckle", "tip", "proximal", "middle")},
@@ -365,6 +383,8 @@ def main() -> None:
            "float_p_fixture_mm": {L: rs[L]["p"] * 1000.0 for L in ("proximal", "middle")},
            "T_knucklecap_from_canonical": T_json(T_kn_can), "T_distal_from_tipcap": T_json(T_dist_tip),
            "floating": floats, "betas": cp["final_betas"], "hand_pose": cp["mano_pose_axis_angle"][3:],
+           "distal_dir_tipcap": d_tipcap, "distal_dir_source": src,
+           "distal_dir_design_vs_scan_deg": float(np.degrees(np.arccos(np.clip(d_design @ d_scan, -1, 1)))),
            "checks_mm": {"tip_cap_origin_to_tip_vertex": tip_cap_to_tipvertex, "knuckle_cap_origin_to_mcp": kn_to_mcp,
                          "landmark_start_residual": res0}}
     write_json(ROOT / cfg.data.out_root / "calibration" / "init_rig.json", out)

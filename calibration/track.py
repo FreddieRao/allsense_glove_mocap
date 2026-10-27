@@ -29,8 +29,8 @@ import torch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from calibration.common import ROOT, T_from_json, calib_sfx, load_rig, rot_mean, sfx, write_json                  # noqa: E402
-from calibration.hand_model import (Calib, init_index_pose, joint_penalty, make_frames, robust_mm,  # noqa: E402
-                                    valid_frames)
+from calibration.hand_model import (Calib, distal_dir_deg2, init_index_pose, joint_penalty,  # noqa: E402
+                                    make_frames, robust_mm, valid_frames)
 from calibration.mano_index import INDEX_TIP_VERTEX, ManoIndex                                    # noqa: E402
 from config import load_config, strip_overrides                                                  # noqa: E402
 from mosca import floating                                                                       # noqa: E402
@@ -43,7 +43,8 @@ def load_calib(cfg, mano: ManoIndex, rig_cal) -> Calib:
             "T_distal_from_tipcap": T_from_json(d["T_distal_from_tipcap"]),
             "floating": {L: {"face": v["face"], "bary": v["bary"], "height_mm": v["height_mm"]}
                          for L, v in d["floating"].items()},
-            "joint_offset_radius_m": float(d.get("joint_offset_radius_mm", 0.0)) / 1000.0}
+            "joint_offset_radius_m": float(d.get("joint_offset_radius_mm", 0.0)) / 1000.0,
+            "distal_dir_tipcap": d.get("distal_dir_tipcap", [1.0, 0.0, 0.0])}
     if d.get("joint_offset_radius_mm", 0.0) > 0:
         init["index_joint_offset_m"] = d["index_joint_offset_m"]
     calib = Calib(mano, init, rig_cal.bodies["tip"].template_body, np.asarray(d["base_hand_pose"]))
@@ -102,6 +103,8 @@ def solve_chunk(calib: Calib, fr, theta0: torch.Tensor, tc, use_float: bool, ite
         loss = robust_mm(p["tip"] - fr.tip_obs, fr.tip_mask, 5.0) + joint_penalty(theta)
         if use_float:
             loss = loss + robust_mm(p["float"] - fr.float_obs, fr.float_mask, 5.0)
+        if float(tc.distal_dir_weight) > 0:
+            loss = loss + float(tc.distal_dir_weight) * distal_dir_deg2(calib, p, fr)
         d = torch.rad2deg(theta[1:] - theta[:-1])
         loss = loss + float(tc.smooth) * ((d ** 2).sum(1) * consec).sum() / consec.sum().clamp_min(1)
         loss.backward()

@@ -30,7 +30,7 @@ from dataclasses import dataclass
 import numpy as np
 import torch
 
-from calibration.mano_index import ManoIndex, rodrigues, skin_point
+from calibration.mano_index import INDEX_TIP_VERTEX, ManoIndex, rodrigues, skin_point
 
 FLOAT_LABELS = ("proximal", "middle")
 FLOAT_BONE = {"proximal": 1, "middle": 2}
@@ -79,6 +79,8 @@ class Frames:
     float_mask: torch.Tensor           # (F,2)
     knuckle_obs: torch.Tensor          # (F,m,3) -- for the report only: the root is this body's own fit
     knuckle_mask: torch.Tensor
+    R_world_from_tipcap: torch.Tensor = None   # (F,3,3) the tip cap's re-solved rotation (distal_dir term)
+    tipcap_valid: torch.Tensor = None          # (F,) bool
 
 
 def make_frames(rig, idx: np.ndarray, device) -> Frames:
@@ -90,7 +92,9 @@ def make_frames(rig, idx: np.ndarray, device) -> Frames:
     kno = kn.marker_world_seq[idx]
     f32 = lambda a: torch.as_tensor(np.nan_to_num(a), dtype=torch.float32, device=device)   # noqa: E731
     b = lambda a: torch.as_tensor(np.isfinite(a[..., 0]), device=device)                    # noqa: E731
-    return Frames(rig.take, np.asarray(idx), f32(T), f32(tip), b(tip), f32(fl), b(fl), f32(kno), b(kno))
+    Rt = tp.R_world_from_body_seq[idx]
+    return Frames(rig.take, np.asarray(idx), f32(T), f32(tip), b(tip), f32(fl), b(fl), f32(kno), b(kno),
+                  f32(Rt), torch.as_tensor(tp.valid[idx] & np.isfinite(Rt[:, 0, 0]), device=device))
 
 
 def valid_frames(rig) -> np.ndarray:
@@ -111,6 +115,8 @@ class Calib(torch.nn.Module):
         self.T_knucklecap_from_canonical = Delta(init["T_knucklecap_from_canonical"], dev)
         self.T_distal_from_tipcap = Delta(init["T_distal_from_tipcap"], dev)
         self.register_buffer("tip_template", torch.as_tensor(tip_template, dtype=torch.float32, device=dev))
+        d = np.asarray(init.get("distal_dir_tipcap", [1.0, 0.0, 0.0]), np.float32)
+        self.register_buffer("distal_dir_tipcap", torch.as_tensor(d / np.linalg.norm(d), device=dev))
         self.register_buffer("base_pose", torch.as_tensor(base_pose, dtype=torch.float32, device=dev)[None])
         fl = init["floating"]
         self.register_buffer("float_face", torch.tensor([fl[L]["face"] for L in FLOAT_LABELS], device=dev))
@@ -159,8 +165,11 @@ class Calib(torch.nn.Module):
         T_w_tipcap = T_wc @ posed.T_canonical_from_joint[:, 3] @ self.T_distal_from_tipcap()[None]
         tip = apply_t(T_w_tipcap, self.tip_template[None].expand(len(fr.idx), -1, -1))
         fl_can = skin_point(posed, self.mano.faces, self.float_face, self.float_bary, self.float_h)
+        # distal bone direction, DIP joint -> index tip vertex, world
+        d_can = posed.vertices[:, INDEX_TIP_VERTEX] - posed.T_canonical_from_joint[:, 3, :3, 3]
+        d_can = d_can / d_can.norm(dim=-1, keepdim=True).clamp_min(1e-9)
         out = {"tip": tip, "float": apply_t(T_wc, fl_can), "T_world_from_canonical": T_wc,
-               "T_world_from_tipcap": T_w_tipcap}
+               "T_world_from_tipcap": T_w_tipcap, "distal_dir_world": torch.einsum("fij,fj->fi", T_wc[:, :3, :3], d_can)}
         if verts:
             out["vertices"] = apply_t(T_wc, posed.vertices)
             out["T_world_from_joint"] = T_wc[:, None] @ posed.T_canonical_from_joint
@@ -202,6 +211,21 @@ JOINT_RANGE_DEG = {
     "pip": {"x": (-5.0, 5.0), "y": (-8.0, 8.0), "z": (-10.0, 120.0)},
     "dip": {"x": (-5.0, 5.0), "y": (-8.0, 8.0), "z": (-20.0, 100.0)},
 }
+
+
+def distal_dir_deg2(calib: "Calib", pred: dict, fr: Frames) -> torch.Tensor:
+    """Mean squared angle (deg^2) between MANO's distal bone direction and the direction the measured tip cap
+    implies, R_world_from_tipcap @ distal_dir_tipcap (Stage C, from the designed hand in the certain fixture).
+
+    WHY. The tip cap reaches the distal bone only through the rigid binding T_distal_from_tipcap, and its
+    markers sit within ~10 mm of each other, so the binding's rotation can absorb DIP flexion (seen
+    2026-10-22: tracked DIP stayed within -11..18 deg while PIP reached 107 deg). Tying the bone direction to
+    the cap's measured direction in EVERY frame removes that freedom from the binding and the pose alike."""
+    d_meas = torch.einsum("fij,j->fi", fr.R_world_from_tipcap, calib.distal_dir_tipcap)
+    c = (pred["distal_dir_world"] * d_meas).sum(-1).clamp(-1 + 1e-7, 1 - 1e-7)
+    a = torch.rad2deg(torch.arccos(c))
+    m = fr.tipcap_valid.float()
+    return (a ** 2 * m).sum() / m.sum().clamp_min(1.0)
 
 
 def joint_penalty(index_pose: torch.Tensor) -> torch.Tensor:

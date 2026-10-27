@@ -8,6 +8,8 @@ WHAT IS MEASURED, per marker observation, against the Stage E track (frozen cali
                   (T_world_from_canonical @ inv(T_knucklecap_from_canonical)): the cap's own rigid fit on the default
                   run -- the floor under every other number -- and what wrist smoothing costs on `smooth.wrist` runs
     float_*       |predicted floating-marker centre - observed|, the marker centre on the skin point + height
+    distal_dir    angle (deg) between MANO's distal bone (DIP -> tip vertex) and the direction the measured tip cap
+                  implies (Stage C `distal_dir_tipcap`); its `_mm` fields are degrees
     float_*_win   the same, against the Stage B distance-window labels (before the MANO re-claim): what the
                   re-claim removed, i.e. how many window labels a MANO prediction cannot explain within 8 mm
 
@@ -70,6 +72,12 @@ def residuals(take: str, cfg) -> dict:
          "float_middle": np.linalg.norm(tr["float_pred"][:, 1] - fl_o[:, 1], axis=1) * 1000.0,
          "float_proximal_win": np.linalg.norm(tr["float_pred"][:, 0] - win[:, 0], axis=1) * 1000.0,
          "float_middle_win": np.linalg.norm(tr["float_pred"][:, 1] - win[:, 1], axis=1) * 1000.0}
+    # distal bone direction (DIP joint -> tip vertex) vs the direction the measured tip cap implies, deg
+    d = tr["tip_vertex_world"].astype(float) - tr["joints_world"][:, 3].astype(float)
+    d /= np.linalg.norm(d, axis=1, keepdims=True)
+    d_cap = np.asarray(calib.get("distal_dir_tipcap", [np.nan] * 3), float)
+    d_meas = np.einsum("tij,j->ti", rig.bodies["tip"].R_world_from_body_seq, d_cap / np.linalg.norm(d_cap))
+    r["distal_dir_deg"] = np.degrees(np.arccos(np.clip((d * d_meas).sum(1), -1, 1)))[:, None]
     valid = tr["valid"]
     for k in r:
         r[k][~valid] = np.nan
@@ -111,7 +119,8 @@ def main() -> None:
     calib = json.loads((ROOT / cfg.data.out_root / "calibration" / f"hand_calib{calib_sfx(cfg)}.json").read_text())
     fitz = np.load(ROOT / cfg.data.out_root / "calibration" / f"hand_calib{calib_sfx(cfg)}.npz")
     out = {"source": "evaluation/fit_error.py", "calibration": f"outputs/calibration/hand_calib{calib_sfx(cfg)}.json", "run_tag": str(cfg.run.tag or ""), "takes": {}}
-    groups = ("tip_cap", "knuckle_cap", "float_proximal", "float_middle", "float_proximal_win", "float_middle_win")
+    groups = ("tip_cap", "knuckle_cap", "float_proximal", "float_middle", "float_proximal_win", "float_middle_win",
+              "distal_dir_deg")
     for take in ("calibration", "free_motion"):
         R = residuals(take, cfg)
         n = R["n"]

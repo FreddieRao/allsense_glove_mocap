@@ -92,6 +92,9 @@ floating marker m  = T_world_from_canonical[i] @ ( sum_k bary_mk v_k(betas, thet
   every binding and a prior of 2 mm / 2° on where the hand sits in the fixture.
 * **Index pose.** `theta_i` is 9 numbers per frame (MANO index MCP/PIP/DIP axis-angle); the other joints are held at
   the calibration pose.
+* **Distal-bone direction term** (`distal_dir`). The bone direction (DIP joint to fingertip vertex) is expressed in
+  the tip-cap frame using the designed hand in the certain fixture. In every frame of the fit and the tracker, the
+  angle between MANO's distal bone and that cap-implied direction is penalised (weight 0.05 per deg²).
 
 ### Smoothing (`mosca/smooth.py`)
 
@@ -105,11 +108,11 @@ floating marker m  = T_world_from_canonical[i] @ ( sum_k bary_mk v_k(betas, thet
 
 These are RMS values over every tracked frame, against the raw markers (`notes/2026-10-22_calibration_eval.json`):
 
-| take | tip cap | knuckle cap | floating proximal | floating middle |
-|---|---|---|---|---|
-| calibration | 0.31 mm | 0.18 mm | 0.48 mm | 0.34 mm |
-| free motion | 0.60 mm | 0.18 mm | 1.86 mm | 1.21 mm |
-| free motion, held-out blocks | 0.56 mm | 0.20 mm | 1.36 mm | 1.12 mm |
+| take | tip cap | knuckle cap | floating proximal | floating middle | distal direction |
+|---|---|---|---|---|---|
+| calibration | 0.32 mm | 0.18 mm | 0.52 mm | 0.27 mm | 1.17° |
+| free motion | 0.58 mm | 0.18 mm | 1.93 mm | 1.26 mm | 1.74° |
+| free motion, held-out blocks | 0.54 mm | 0.20 mm | 1.41 mm | 1.10 mm | 1.60° |
 
 Other results:
 
@@ -118,7 +121,8 @@ Other results:
 * **Index bone lengths:** proximal 33.1, middle 22.3, DIP–tip 25.6 mm.
 * **Floating markers:**
   * proximal phalanx: face 346, vertex 261, 4.0 mm above the skin;
-  * middle phalanx: face 53, vertex 86, 5.0 mm above the skin.
+  * middle phalanx: face 52, vertex 86, 4.9 mm above the skin.
+* **Distal-direction term:** free-motion distal-direction error is 5.3° RMS without the term and 1.7° with it.
 * **Smoothed-wrist variant:** wrist jitter 0.100 → 0.025 mm. Finger errors are unchanged; the knuckle cap goes to
   0.24 mm.
 
@@ -166,7 +170,10 @@ Naming follows TableMocap's `CONVENTIONS.md`:
 ## Known limitations
 
 * **PIP/DIP split.** With the designed-hand prior and the index pivot corrections (MCP moves ~8.5 mm), tracked PIP
-  reaches ~107° while DIP stays within −11…18°. The split between the two joints is not trusted yet.
+  reaches ~103° while DIP stays within −10…28°.
+  * The distal-direction term pins the distal bone to the cap (1.7° RMS), so the split is now set by the middle
+    phalanx, which only one floating marker constrains.
+  * The split between the two joints is not trusted yet.
 * **Floating-marker heights** sit at their [3, 5] mm bounds, so MANO's dorsal skin does not match this hand exactly.
 * **The knuckle cap is a rigid root** on the hand back; skin slide there is invisible to the model.
 * `data/motive/Take 2026-10-17 05.39.06 PM.tak` has no CSV export and is not used.

@@ -167,3 +167,26 @@ Smoothing the wrist costs 0.06 mm at the knuckle cap and nothing on the finger m
   and a timeline row at 1 mm full scale;
 * an optional blue overlay of the smoothed-wrist hand, with its own knuckle-cap error (`#ovl` in the URL turns it
   on).
+
+## 5. Distal-bone direction term (2026-10-27)
+
+**The constraint.** `distal_dir` (`calibration/hand_model.py:distal_dir_deg2`; Stage C stores `distal_dir_tipcap` in
+`init_rig.json`):
+
+* The designed hand's distal bone (DIP joint → tip vertex of `hand_aligned_mm.obj`) is expressed in the tip-cap frame
+  through the certain fixture registration: [0.888, −0.074, −0.454].
+* In every frame of both takes, Stage D and E penalise the squared angle to `R_world_from_tipcap @ distal_dir_tipcap`
+  (weight 0.05 per deg², `fit.weights.distal_dir`, `track.distal_dir_weight`).
+* The scan's long axis (`distal_dir.source: scan`) is weakly defined and sits 7° off the design, so `design` is the
+  default.
+
+Default run, RMS (tip / prox / mid in mm; distal direction in deg):
+
+| | calibration | free motion | free held-out | distal-direction error, free motion (RMS / p95) | DIP range |
+|---|---|---|---|---|---|
+| before | 0.31 / 0.48 / 0.34 | 0.60 / 1.86 / 1.21 | 0.56 / 1.36 / 1.12 | 5.26° / 9.21° | −11…20° |
+| after | 0.32 / 0.52 / 0.27 | 0.58 / 1.93 / 1.26 | 0.54 / 1.41 / 1.10 | 1.74° / 3.01° | −10…28° |
+
+* **The constraint holds:** the distal bone now follows the cap within about 1.7°.
+* **It barely changes the PIP/DIP split:** PIP reaches 103°, DIP 28°. The split is set by the middle phalanx, which
+  only the middle floating marker and the ~8.5 mm MCP pivot correction constrain.

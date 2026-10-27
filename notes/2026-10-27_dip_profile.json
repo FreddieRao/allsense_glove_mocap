@@ -1,0 +1,147 @@
+{
+  "source": "scripts/dip_profile.py",
+  "calibration": "hand_calib.json",
+  "frames": 64,
+  "tracked_total_flexion_deg_mean": 133.3,
+  "tracked_dip_deg_mean": 34.2,
+  "tracked_pip_deg_mean": 99.2,
+  "floating_placement": {
+    "proximal": {
+      "along_bone_frac": 0.45,
+      "dist_from_proximal_joint_mm": 21.01,
+      "skin_weight_on_bones": {
+        "j1": 0.965,
+        "j0": 0.025,
+        "j2": 0.01
+      }
+    },
+    "middle": {
+      "along_bone_frac": 0.282,
+      "dist_from_proximal_joint_mm": 13.68,
+      "skin_weight_on_bones": {
+        "j2": 0.82,
+        "j1": 0.18,
+        "j0": 0.001
+      }
+    }
+  },
+  "index_joint_offset_mm": [
+    [
+      5.374000072479248,
+      6.3379998207092285,
+      2.571000099182129
+    ],
+    [
+      0.3930000066757202,
+      2.2899999618530273,
+      -1.4759999513626099
+    ],
+    [
+      0.17299999296665192,
+      0.7900000214576721,
+      0.11599999666213989
+    ]
+  ],
+  "profile": [
+    {
+      "dip_deg": 0.0,
+      "objective_mm2": 27.881,
+      "tip_rms_mm": 5.486,
+      "float_prox_rms_mm": 1.909,
+      "float_mid_rms_mm": 3.176,
+      "distal_dir_rms_deg": 14.598,
+      "pip_mean_deg": 118.5,
+      "mcp_mean_deg": 18.8
+    },
+    {
+      "dip_deg": 10.0,
+      "objective_mm2": 16.663,
+      "tip_rms_mm": 2.855,
+      "float_prox_rms_mm": 1.598,
+      "float_mid_rms_mm": 2.117,
+      "distal_dir_rms_deg": 13.128,
+      "pip_mean_deg": 110.7,
+      "mcp_mean_deg": 18.2
+    },
+    {
+      "dip_deg": 20.0,
+      "objective_mm2": 8.163,
+      "tip_rms_mm": 1.541,
+      "float_prox_rms_mm": 0.913,
+      "float_mid_rms_mm": 1.314,
+      "distal_dir_rms_deg": 9.977,
+      "pip_mean_deg": 105.8,
+      "mcp_mean_deg": 16.8
+    },
+    {
+      "dip_deg": 30.0,
+      "objective_mm2": 4.345,
+      "tip_rms_mm": 1.136,
+      "float_prox_rms_mm": 0.884,
+      "float_mid_rms_mm": 1.56,
+      "distal_dir_rms_deg": 5.874,
+      "pip_mean_deg": 101.3,
+      "mcp_mean_deg": 15.6
+    },
+    {
+      "dip_deg": 40.0,
+      "objective_mm2": 4.773,
+      "tip_rms_mm": 1.232,
+      "float_prox_rms_mm": 1.031,
+      "float_mid_rms_mm": 2.608,
+      "distal_dir_rms_deg": 2.125,
+      "pip_mean_deg": 96.8,
+      "mcp_mean_deg": 14.3
+    },
+    {
+      "dip_deg": 50.0,
+      "objective_mm2": 8.23,
+      "tip_rms_mm": 1.329,
+      "float_prox_rms_mm": 1.252,
+      "float_mid_rms_mm": 4.171,
+      "distal_dir_rms_deg": 3.913,
+      "pip_mean_deg": 92.5,
+      "mcp_mean_deg": 12.9
+    },
+    {
+      "dip_deg": 60.0,
+      "objective_mm2": 13.425,
+      "tip_rms_mm": 1.525,
+      "float_prox_rms_mm": 1.593,
+      "float_mid_rms_mm": 5.694,
+      "distal_dir_rms_deg": 8.025,
+      "pip_mean_deg": 87.6,
+      "mcp_mean_deg": 11.9
+    },
+    {
+      "dip_deg": 70.0,
+      "objective_mm2": 20.121,
+      "tip_rms_mm": 2.025,
+      "float_prox_rms_mm": 1.792,
+      "float_mid_rms_mm": 6.701,
+      "distal_dir_rms_deg": 12.305,
+      "pip_mean_deg": 82.1,
+      "mcp_mean_deg": 11.5
+    },
+    {
+      "dip_deg": 80.0,
+      "objective_mm2": 28.261,
+      "tip_rms_mm": 2.867,
+      "float_prox_rms_mm": 1.744,
+      "float_mid_rms_mm": 7.294,
+      "distal_dir_rms_deg": 16.294,
+      "pip_mean_deg": 75.5,
+      "mcp_mean_deg": 12.0
+    },
+    {
+      "dip_deg": 90.0,
+      "objective_mm2": 35.598,
+      "tip_rms_mm": 12.479,
+      "float_prox_rms_mm": 2.077,
+      "float_mid_rms_mm": 10.352,
+      "distal_dir_rms_deg": 9.933,
+      "pip_mean_deg": 58.4,
+      "mcp_mean_deg": 12.3
+    }
+  ]
+}
